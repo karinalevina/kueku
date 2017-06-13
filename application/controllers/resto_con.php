@@ -22,24 +22,82 @@ class Resto_con extends CI_Controller {
 		$this->utama();
 	}
 	
-	public function register()
+	/*public function register()
 	{
 		$this->load->view('register');
+	}*/
+	
+	public function halrating($msg = NULL){
+		$data['msg'] = $msg;
+        $this->load->view('rating');
+    }
+	
+	public function utama($nmkue='') {
+		//$id = $this->session->userdata('idmember');
+		$this->load->model('resto_model');
+		$data['kue']= $this->resto_model->halut();
+		//$data['penjual']= $this->resto_model->detjual($nmkue);
+		$this->load->view('halutama', $data);
 	}
 	
-	public function utama() {
-		$id = $this->session->userdata('idmember');
+	public function standar(){
+		$idkue = $this->input->post('id');
 		$this->load->model('resto_model');
-		$data['qryTop5'] = $this->resto_model->get_five();
-		$data['history'] = $this->resto_model->history($id);
-		$data['wops'] = $this->resto_model->what_other($id);
-		$data['lokasi'] = $this->resto_model->getLocation();
-		$this->load->view('halutama', $data);
+		$query = $this->resto_model->getStandarById($idkue);
+		$data="";
+		foreach($query as $row){
+			$data .= "<h3><strong>".$row->nmkue."</strong></h3>";
+			$data .= "<table border=0 width=100%>
+							<thead>
+								<tr>
+									<td class='col1'><img src=/assets/img/icon-765124_960_720.jpg width=50px height=50px><br>Ukuran</td>
+									<td class='col2'><a>".$row->ukuran."</a><br>
+								</tr
+								<tr>
+									<td style=text-align:center width=60%><img src=../../kueku/assets/img/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px><br>Bahan</td>
+									<td style=text-align:center><a class='well top-block'>".$row->bahan."</a><br>
+								</tr>
+								<tr>
+									<td style=text-align:center width=60%><img src=../../kueku/assets/img/128268-200.png width=50px height=50px><br>Penyajian</td>
+									<td style=text-align:center><a class='well top-block'>".$row->penyajian."</a><br>
+								</tr>
+								<tr>	
+									<td style=text-align:center width=60%><img src=../../kueku/assets/img/Savouring-Emoji-Taste-Tongue-Emoticon-512.png width=50px height=50px><br>Rasa</td>
+									<td style=text-align:center><a class='well top-block'>".$row->rasa."</a><br>
+								</tr>	
+							</thead>";
+		}
+		echo $data;
+	}
+	
+	public function penjual(){
+		$idkue = $this->input->post('id');
+		$this->load->model('resto_model');
+		$query = $this->resto_model->getPenjualById($idkue);
+		$data="";
+		foreach($query as $row){
+			$data .= "<table border=0 width=100%>
+						<tr><h3><strong>".$row->nmkue."</strong></h3></tr>
+					</table>";
+			$data .= "<table border=0 width=100%>
+							<thead>
+								<tr>
+									<td style=text-align:center width=60%0%><a class='well top-block'>".$row->nmmember."</a><br>
+									<td style=text-align:center width=60%><a class='well top-block'>Rp ".$row->hrg."</a><br></td>
+									<td style=text-align:center width=60%><img src='/assets/img/produk/".$row->gambar."'width=100px height=100px></a><br>
+								</tr>
+							</thead>
+						</table>
+			<button type='submit' class='btn btn-primary btn-round btn-lg' onclick=''>Beli</button>
+			<button type='submit' class='btn btn-primary btn-round btn-lg' onclick=''>Tutup</button>
+			</p>";	
+		}
+		echo $data;
 	}
 
 	public function submitRating(){
 		$idmember = $this->security->xss_clean($this->input->post('idmember'));
-		$idRm = $this->security->xss_clean($this->input->post('idRm'));
+		$idkue = $this->security->xss_clean($this->input->post('idkue'));
 		$skor1 = $this->security->xss_clean($this->input->post('skor1'));
 		$skor2 = $this->security->xss_clean($this->input->post('skor2'));
 		$skor3 = $this->security->xss_clean($this->input->post('skor3'));
@@ -47,10 +105,11 @@ class Resto_con extends CI_Controller {
 		$komen = $this->security->xss_clean($this->input->post('komen'));
 		$this->load->model('resto_model');
 		$hasil=$this->resto_model->submitRating();
-		$this->utama();
+		$msg = '<font color=green> Anda Sudah Mereview Produk Ini</font><br />';
+        $this->utama($msg);
 	}
 	
-	public function findresto(){
+	/*public function findresto(){
 		
 		$this->load->model('resto_model');
 		$cari = $this->input->post('cari');
@@ -67,13 +126,14 @@ class Resto_con extends CI_Controller {
 			</p>";	
 		}
 		echo $data;
-	}
+	}*/
 
 	public function do_logout()
 	{
 		session_destroy();
 		redirect('login_con');
-	}	
+	}
+		
 }
 
 /* End of file welcome.php */

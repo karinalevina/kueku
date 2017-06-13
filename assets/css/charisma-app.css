@@ -194,11 +194,11 @@ select {
 }
 
 .btn-round {
-    border-radius: 40px;
-    -webkit-border-radius: 40px;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
     -moz-border-radius: 40px;
     font-size: 12px;
-    padding-top: 4px;
+    padding-top: 2px;
 }
 
 ul.dashboard-list li {

@@ -4,7 +4,7 @@ include('assets/header.php'); ?>
 
     <div class="row">
         <div class="col-md-12 center login-header">
-            <h2>Selamat Datang di Resto</h2>
+            <h2>Selamat Datang di Aplikasi Kueku!</h2>
         </div>
     </div>
 
@@ -37,6 +37,12 @@ include('assets/header.php'); ?>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
                         <input type="password" class="form-control" placeholder="Password" name="password">
+                    </div>
+                    <div class="clearfix"></div><br>
+					
+					<div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+                        <input type="text" class="form-control" placeholder="Alamat" name="alamat">
                     </div>
                     <div class="clearfix"></div><br>
 

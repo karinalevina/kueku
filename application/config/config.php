@@ -17,10 +17,11 @@
 //$ipadd = 'http://localhost';
 //$ipadd = 'http://10.0.4.164';
 //$ipadd = 'http://10.0.4.29';
-$ipadd = 'http://10.0.4.99';
+//$ipadd = 'http://10.0.4.99';
 //$ipadd = 'http://10.0.4.221/';
 //$ipadd = 'http://10.0.4.54/';
-$config['base_url']	= $ipadd.'/resto/';
+$config['base_url']	= 'http://kueku.local';
+//$ipadd.'/kueku//';
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ $config['base_url']	= $ipadd.'/resto/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 $config['encryption_key'] = '02527-269-2503946-70386-34730519'; 
 
 /*

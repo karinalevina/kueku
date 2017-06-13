@@ -16,13 +16,15 @@
         ===
     -->
     <meta charset="utf-8">
-    <title>Selamat Datang di Aplikasi Rating</title>
+    <title>Selamat Datang di Aplikasi Belanja Kue Pertama di Makassar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
     <meta name="author" content="Muhammad Usman">
 
     <!-- The styles -->
-    <link id="bs-css" href="<?php echo asset_url();?>css/bootstrap-cerulean.min.css" rel="stylesheet">
+		
+    <!--<link id="bs-css" href="<?php echo asset_url();?>css/bootstrap-cerulean.min.css" rel="stylesheet">-->
+    <link href="<?php echo asset_url();?>css/bootstrap-cerulean.min.css" rel="stylesheet">
 
     <link href="<?php echo asset_url();?>css/charisma-app.css" rel="stylesheet">
     <link href='<?php echo asset_url();?>bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
@@ -38,6 +40,8 @@
     <link href='<?php echo asset_url();?>css/jquery.iphone.toggle.css' rel='stylesheet'>
     <link href='<?php echo asset_url();?>css/uploadify.css' rel='stylesheet'>
     <link href='<?php echo asset_url();?>css/animate.min.css' rel='stylesheet'>
+    
+	<link href='<?php echo asset_url();?>css/mystyle.css' rel='stylesheet'>
 
     <!-- jQuery -->
     <script src="<?php echo asset_url();?>bower_components/jquery/jquery.min.js"></script>

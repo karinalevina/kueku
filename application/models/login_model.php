@@ -30,17 +30,17 @@ class Login_model extends CI_Model{
 		return false;
     }
 	
-	public function registrasi($nama, $username, $email, $password){
+	public function registrasi($nama, $username, $email, $password, $alamat){
         $this->db->where('username', $username);
         $query = $this->db->get('tbmember');
         if($query->num_rows > 0) {
 		  return false;
 		} else {
-			$this->namaMember  = $nama; 
+			$this->nmmember  = $nama; 
 			$this->username = $username;
 			$this->email    = $email;
 			$this->pass    = $password;
-
+			$this->alamat    = $alamat;
 			$hasil= $this->db->insert('tbmember', $this);
 			return $hasil;
 		}

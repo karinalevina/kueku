@@ -18,6 +18,7 @@ class Login_con extends CI_Controller{
         $this->load->view('register', $data);
 	}
 	
+	
     public function proses(){
         // mengambil inputan user
         $username = $this->security->xss_clean($this->input->post('username'));
@@ -42,10 +43,11 @@ class Login_con extends CI_Controller{
         $username = $this->security->xss_clean($this->input->post('username'));
 		$email = $this->security->xss_clean($this->input->post('email'));
         $password = MD5($this->security->xss_clean($this->input->post('password')));
+        $alamat = $this->security->xss_clean($this->input->post('alamat'));
         
         // meload model
         $this->load->model('login_model');
-        $result = $this->login_model->registrasi($nama,$username,$email, $password);
+        $result = $this->login_model->registrasi($nama,$username,$email, $password,$alamat);
         // Verifikasi hasil
 		if(!$result) {
             // Jika user sudah ada maka tampilkan kembali halaman login dengan pesan

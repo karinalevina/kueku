@@ -36,7 +36,7 @@
                 <li><a href="#"><i class="glyphicon glyphicon-globe"></i> Syarat & Ketentuan</a></li>
                 <li class="dropdown">
 				<li>
-					<a href="#"><img src="/assets/img/blue-shopping-cart-icon-5505.jpg" width="30px" height="30px" class="hidden-xs"/></i></a>
+					<a href="#"><img src="http://localhost/kueku/assets/img/blue-shopping-cart-icon-5505.jpg" width="30px" height="30px" class="hidden-xs"/></i></a>
 				</li>
                 <li>
 					<input placeholder="Search" class="search-query form-control col-md-10" name="query" type="text">
@@ -108,94 +108,74 @@
             </div>
         </div>
     </div>
-</div>
+</div>		
 
-	<?php
-	foreach($kue as $row){
-		$nmkue= $row->nmkue;
-		?>
-	<div id="item">
-		<div class="col-md-3 col-sm-6">
-			<div class="product-item">
-				<div class="product-thumb">					
-					<div class="product-content">
-						<?php
-						echo "<h3><strong>".$row->nmkue."</strong></h3>";?>
-						<!--						
-						<a data-toggle="pill" class="well top-block" href="#detjual"></i><img src="<?php //echo $row->gambar;?>" alt style= "width:100px" "height:50px"></a>
-						-->
-						<a data-toggle="pill" class="well top-block" href="" onclick="detpenjual(<?php echo $row->idkue;?>);"></i><img src="<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
-						<a data-toggle="pill" class="well top-block" href="" onclick="detstandar(<?php echo $row->idkue;?>);"><strong>Detail</strong></button></a>
-						<!--<button type="submit" class="btn btn-primary btn-round btn-lg" onclick="detstandar(<?php echo $row->idkue;?>);"><strong>Detail</strong></button>-->
-					<?php
-
-							//echo "<h3><strong>".$row->nmkue."</strong></h3>";
-							//echo "<a>".$row->nmpengrajin."</a>".$row->hrg;
-					?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-<?php  }   ?>
-
-<script>
-
-		function detpenjual(idkue) {
-			//document.getElementById("idResto").value=idRm;
-			//document.getElementById("namaRm").innerHTML=nama+"<br>"+alamat;
-			$.ajax({
-				type:"POST",
-				url : "<?php echo base_url(); ?>index.php/resto_con/penjual",
-				data : {"id" : idkue},
-				success : function(data){
-					document.getElementById("isiDetail").innerHTML=data;
-				}
-			});			
-			document.getElementById("namaRm").innerHTML = "Daftar Penjual Kue";
-			$('#myModal').modal('show');
-		}
-		//using multiple modal in 1 page
-		function detstandar(idkue) {
-			//document.getElementById("idResto").value=idRm;
-			//document.getElementById("namaRm").innerHTML=nama+"<br>"+alamat;
-			$.ajax({
-				type:"POST",
-				url : "<?php echo base_url(); ?>index.php/resto_con/standar",
-				data : {"id" : idkue},
-				success : function(data){
-					document.getElementById("isiDetail").innerHTML=data;
-				}
-			});			
-			document.getElementById("namaRm").innerHTML = "Standar Kue";
-			$('#myModal').modal('show');
+<script>		
+		function showRating(idkue, nama, alamat) {
+			document.getElementById("idkueue").value=idkue;
+			document.getElementById("nmkue").innerHTML=nama+"<br>"+alamat;
+			
+			$('#myModalDetail').modal('show');
 		}
 		
+		function submitRating(){
+			document.getElementById("idmember").value=<?php echo $this->session->userdata('idmember')?>;
+			var krit0 = document.getElementsByName("score")[0].value;
+			var krit1 = document.getElementsByName("score")[1].value;
+			var krit2 = document.getElementsByName("score")[2].value;
+			var krit3 = document.getElementsByName("score")[3].value;
+			$("#krit0").val(krit0);
+			$("#krit1").val(krit1);
+			$("#krit2").val(krit2);
+			$("#krit3").val(krit3);
+			return true;
+		}
 </script>
-<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-	aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form role="form" action="<?php echo base_url(); ?>index.php/resto_con/utama" method="post">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">x</button>
-                        <h3 id = "namaRm">Standar Kue</h3>     
-					</div>
-                    <div class="modal-body">      
-						<table border=0 width=100%>
+                <form role="form" action="<?php echo base_url(); ?>index.php/resto_con/submitRating" method="post">
+                        <h3 id = "nmkue">Detail Kue</h3>     
+						<input type="hidden" name="idkue" id="idkue" value="">
+						<input type="hidden" name="idmember" id="idmember" value="">
+					</div>					  
+					<script>
+						function ganti(no){
+							var x = document.getElementsByName("score")[no].value;
+							$("#krit"+no).val(x);
+						}
+					</script>      
+						<table border=0 width=80%>
 							<thead>
+								<tr>
+									<td style="text-align:center" width=60%><img src=../../assets/img/trjfp_recycle_icons-enjoy.png width=50px height=50px><br>Ukuran</td>
+									<td style="text-align:center"><div class="raty" onclick="ganti(0);"></div><input type="hidden" name="skor1" id="krit0"></td>
+								</tr
+								<tr>
+									<td style="text-align:center" width=60%><img src=../../assets/img/interiors-icon.jpg width=50px height=50px><br>Bahan</td>
+									<td> <div class="raty" onclick="ganti(1);"></div><input type="hidden" name="skor2" id="krit1"></td>
+								</tr>
+								<tr>
+									<td style="text-align:center" width=60%><img src=../../assets/img/menu-icon-250.png width=50px height=50px><br>Penyajian</td>
+									<td> <div class="raty" onclick="ganti(2);"></div><input type="hidden" name="skor3" id="krit2"></td>
+								</tr>
+								<tr>	
+									<td style="text-align:center" width=60%><img src=../../assets/img/flat-42-512.png width=50px height=50px><br>Rasa</td>
+									<td> <div class="raty" onclick="ganti(3);"></div><input type="hidden" name="skor4" id="krit3"></td>
+								</tr>	
+								<tr>	
+									<td style="text-align:center" width=60%>Komentar</td>
+									<td width=40%> <textarea name="komen"></textarea></td>
+								</tr>
 							</thead>
-							<tbody id="isiDetail">
+							<tbody id="isiTabelDetail">
 							</tbody>
-						</table>
-                    <div class="modal-footer">					  
-						<!--<button type="submit" class="btn btn-primary btn-round btn-lg" onclick="submitRating();"><strong>Beli</strong></button>-->
-                        <a href="#" class="btn btn-primary btn-round btn-lg" data-dismiss="modal"><strong>Tutup</strong></a>                
+						</table>					  
+						<center><button type="submit" class="btn btn-primary btn-round btn-lg" onclick="submitRating();"><strong>Simpan</strong></button>
+                        <a href="#" class="btn btn-primary btn-round btn-lg" data-dismiss="modal"><strong>Tutup</strong></a></center>						
                     </div>
                 </form>
             </div>
         </div>
     </div>
+	
 		
 	<footer class="row">
         <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="" target="_blank">Karina Levina
