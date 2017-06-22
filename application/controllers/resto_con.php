@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Resto_con extends CI_Controller {
-
 	/**
 	 * Index Page for this controller.
 	 *
@@ -32,10 +31,72 @@ class Resto_con extends CI_Controller {
         $this->load->view('rating');
     }
 	
+	public function insertproduk(){
+        $this->load->view('insertproduk');
+    }
+	
+	public function insertcart(){
+		$idkue = $this->security->xss_clean($this->input->post('idkue'));
+        $jmlh = $this->security->xss_clean($this->input->post('jmlh'));
+		$this->load->model('resto_model');
+		$this->resto_model->insertcart($idkue, $jmlh);
+		//echo "Belanja sukses";
+		redirect('resto_con/utama');
+    }
+	
+	public function cart(){
+		$idkue = $this->input->post('id');
+		$this->load->model('resto_model');
+		$query = $this->resto_model->getPenjualById($idkue);
+		$data="";
+		foreach($query as $row){
+			$data .= "<table border=0 width=100%>
+						<tr><h3><strong>".$row->nmkue."</strong></h3></tr>
+					</table>";
+			$data .= "<table border=0 width=100%>
+							<thead>
+								<tr>
+									<td style=text-align:center width=60%0%><a class='well top-block'>".$row->nmmember."</a><br>
+									<td style=text-align:center width=60%><a class='well top-block'>Rp ".$row->hrg."</a><br></td>
+									<td style=text-align:center width=60%><img src='/assets/img/produk/".$row->gambar."'width=100px height=100px></a><br>
+								</tr>
+								<tr>
+									<td colspan=3 style=text-align:center width=60%>
+										
+											<div class='input-group input-group-lg'>
+												<span class='input-group-addon'><i class='glyphicon glyphicon-hand-right red'></i></span>
+												<input type='hidden' class='form-control' name='idmember[]' value=".$row->idmember.">
+												<input type='hidden' class='form-control' name='idkue[]' value=".$row->id.">
+												<input type='text' class='form-control' placeholder='Jumlah' name='jmlh[]' >
+											</div>
+											<div class='clearfix'></div>
+									</td>
+								</tr>
+							</thead>
+						</table>";	
+		}
+		echo $data;
+	}
+	
+	public function bayar(){
+		$this->load->model('resto_model');
+		$this->resto_model->bayar();
+	}
+	
+	public function ubahjmlh() {
+		$idkue = $this->input->post('idkue');
+		$subtotal = $this->input->post('subtotal');
+        $jmlh = $this->input->post('jmlh');
+		$this->load->model('resto_model');
+		$this->resto_model->updatejmlh($jmlh,$idkue,$subtotal);
+	}
+	
 	public function utama($nmkue='') {
-		//$id = $this->session->userdata('idmember');
+		$idmember = $this->session->userdata('idmember');
 		$this->load->model('resto_model');
 		$data['kue']= $this->resto_model->halut();
+		$data['kbelanja']= $this->resto_model->keranjang($idmember);
+		$data['member']= $this->resto_model->getNamaMember($idmember);
 		//$data['penjual']= $this->resto_model->detjual($nmkue);
 		$this->load->view('halutama', $data);
 	}
@@ -46,24 +107,26 @@ class Resto_con extends CI_Controller {
 		$query = $this->resto_model->getStandarById($idkue);
 		$data="";
 		foreach($query as $row){
-			$data .= "<h3><strong>".$row->nmkue."</strong></h3>";
+			$data .= "<table border=0 width=100%>
+						<tr><h3><strong>".$row->nmkue."</strong></h3></tr>
+					</table>";
 			$data .= "<table border=0 width=100%>
 							<thead>
 								<tr>
-									<td class='col1'><img src=/assets/img/icon-765124_960_720.jpg width=50px height=50px><br>Ukuran</td>
-									<td class='col2'><a>".$row->ukuran."</a><br>
+									<td class='col1'><img src=/assets/img/icon/icon-765124_960_720.jpg width=50px height=50px><br>Ukuran</td>
+									<td class='col2'><a class='well top-block'>".$row->ukuran."</a><br></p>
 								</tr
 								<tr>
-									<td style=text-align:center width=60%><img src=../../kueku/assets/img/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px><br>Bahan</td>
-									<td style=text-align:center><a class='well top-block'>".$row->bahan."</a><br>
+									<td style='col1'><img src=/assets/img/icon/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px><br>Bahan</td>
+									<td style='col2'><a class='well top-block'>".$row->bahan."</a><br>
 								</tr>
 								<tr>
-									<td style=text-align:center width=60%><img src=../../kueku/assets/img/128268-200.png width=50px height=50px><br>Penyajian</td>
-									<td style=text-align:center><a class='well top-block'>".$row->penyajian."</a><br>
+									<td style='col1'><img src=/assets/img/icon/128268-200.png width=50px height=50px><br>Penyajian</td>
+									<td style='col2'><a class='well top-block'>".$row->penyajian."</a><br>
 								</tr>
 								<tr>	
-									<td style=text-align:center width=60%><img src=../../kueku/assets/img/Savouring-Emoji-Taste-Tongue-Emoticon-512.png width=50px height=50px><br>Rasa</td>
-									<td style=text-align:center><a class='well top-block'>".$row->rasa."</a><br>
+									<td style='col1'><img src=/assets/img/icon/Savouring-Emoji-Taste-Tongue-Emoticon-512.png width=50px height=50px><br>Rasa</td>
+									<td style='col2'><a class='well top-block'>".$row->rasa."</a><br>
 								</tr>	
 							</thead>";
 		}
@@ -82,19 +145,28 @@ class Resto_con extends CI_Controller {
 			$data .= "<table border=0 width=100%>
 							<thead>
 								<tr>
-									<td style=text-align:center width=60%0%><a class='well top-block'>".$row->nmmember."</a><br>
+									<td style=text-align:center width=60%><a class='well top-block'>".$row->nmmember."</a><br>
 									<td style=text-align:center width=60%><a class='well top-block'>Rp ".$row->hrg."</a><br></td>
 									<td style=text-align:center width=60%><img src='/assets/img/produk/".$row->gambar."'width=100px height=100px></a><br>
 								</tr>
+								<tr>
+									<td colspan=3 style=text-align:center width=60%>
+										
+											<div class='input-group input-group-lg'>
+												<span class='input-group-addon'><i class='glyphicon glyphicon-hand-right red'></i></span>
+												<input type='hidden' class='form-control' name='idmember[]' value=".$row->idmember.">
+												<input type='hidden' class='form-control' name='idkue[]' value=".$row->id.">
+												<input type='text' class='form-control' placeholder='Jumlah' name='jmlh[]' >
+											</div>
+											<div class='clearfix'></div>
+									</td>
+								</tr>
 							</thead>
-						</table>
-			<button type='submit' class='btn btn-primary btn-round btn-lg' onclick=''>Beli</button>
-			<button type='submit' class='btn btn-primary btn-round btn-lg' onclick=''>Tutup</button>
-			</p>";	
+						</table>";	
 		}
 		echo $data;
 	}
-
+	
 	public function submitRating(){
 		$idmember = $this->security->xss_clean($this->input->post('idmember'));
 		$idkue = $this->security->xss_clean($this->input->post('idkue'));
@@ -106,10 +178,10 @@ class Resto_con extends CI_Controller {
 		$this->load->model('resto_model');
 		$hasil=$this->resto_model->submitRating();
 		$msg = '<font color=green> Anda Sudah Mereview Produk Ini</font><br />';
-        $this->utama($msg);
+		$this->utama($msg);
 	}
 	
-	/*public function findresto(){
+	public function findresto(){
 		
 		$this->load->model('resto_model');
 		$cari = $this->input->post('cari');
@@ -126,12 +198,13 @@ class Resto_con extends CI_Controller {
 			</p>";	
 		}
 		echo $data;
-	}*/
+	}
 
 	public function do_logout()
 	{
-		session_destroy();
-		redirect('login_con');
+		//session_destroy();
+		$this->session->sess_destroy();
+		redirect('resto_con/utama');
 	}
 		
 }

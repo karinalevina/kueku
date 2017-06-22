@@ -4,7 +4,7 @@
 	<head>
 	
 	</head>
-	<body onload="load();">
+	<body>
 
 	<!-- topbar starts -->
     <div class="navbar navbar-default" role="navigation">
@@ -35,9 +35,6 @@
             <ul class="collapse navbar-collapse nav navbar-nav top-menu">
                 <li><a href="#"><i class="glyphicon glyphicon-globe"></i> Syarat & Ketentuan</a></li>
                 <li class="dropdown">
-				<li>
-					<a href="#"><img src="http://localhost/kueku/assets/img/blue-shopping-cart-icon-5505.jpg" width="30px" height="30px" class="hidden-xs"/></i></a>
-				</li>
                 <li>
 					<input placeholder="Search" class="search-query form-control col-md-10" name="query" type="text">
                     
@@ -58,13 +55,13 @@
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main</li>
-                        <li><a class="ajax-link" href="index.html"><i class="glyphicon glyphicon-home"></i><span> Jualanku</span></a>
+                        <li><a class="ajax-link" href="#"><i class="glyphicon glyphicon-home"></i><span> Jualanku</span></a>
                         </li>
                         <li><a href= "<?php echo base_url(); ?>index.php/resto_con/halrating"><i class="glyphicon glyphicon-eye-open"></i><span> Rating & Review</span></a>
                         </li>
-                        <li><a class="ajax-link" href="form.html"><i
+                        <!--<li><a class="ajax-link" href="form.html"><i
                                     class="glyphicon glyphicon-edit"></i><span> Kue</span></a></li>
-                        <!--<li><a class="ajax-link" href="chart.html"><i class="glyphicon glyphicon-list-alt"></i><span> Kategori</span></a>
+                        <li><a class="ajax-link" href="chart.html"><i class="glyphicon glyphicon-list-alt"></i><span> Kategori</span></a>
                         </li>-->
                         <li><a href= "<?php echo base_url(); ?>index.php/login_con/index"><i class="glyphicon glyphicon-lock"></i><span> Halaman Login</span></a>
                         </li>
@@ -108,75 +105,83 @@
             </div>
         </div>
     </div>
-</div>		
+</div>
 
-<script>		
-		function showRating(idkue, nama, alamat) {
-			document.getElementById("idkueue").value=idkue;
-			document.getElementById("nmkue").innerHTML=nama+"<br>"+alamat;
-			
+<form class="form-horizontal" action="<?php echo base_url(); ?>index.php/login_con/proses" method="post">
+                <fieldset>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-thumbs-up blue"></i></span>
+                        <input type="text" class="form-control" placeholder="Nama Kue" name="nmkue">
+                    </div>
+                    <div class="clearfix"></div><br>
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase blue"></i></span>
+                        <input type="password" class="form-control" placeholder="Harga" name="hrg">
+                    </div>
+                    <div class="clearfix"></div><br>
+
+					<div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture blue"></i></span>
+                        <input type="file" class="form-control" id="exampleInputFile">
+                    </div>
+                    <div class="clearfix"></div><br>
+					
+                    <p class="center col-md-5">
+                        <a data-toggle="pill" class="well top-block" href="" onclick="showform()"><strong>Simpan</strong></button></a>
+						
+                    </p>
+                </fieldset>
+            </form>
+
+<script>
+		function showform() {
+			//document.getElementById("idResto").value=idRm;
+			//document.getElementById("namaRm").innerHTML=nama+"<br>"+alamat;
+			//document.getElementById("isiDetail").innerHTML=data;
 			$('#myModalDetail').modal('show');
 		}
-		
-		function submitRating(){
-			document.getElementById("idmember").value=<?php echo $this->session->userdata('idmember')?>;
-			var krit0 = document.getElementsByName("score")[0].value;
-			var krit1 = document.getElementsByName("score")[1].value;
-			var krit2 = document.getElementsByName("score")[2].value;
-			var krit3 = document.getElementsByName("score")[3].value;
-			$("#krit0").val(krit0);
-			$("#krit1").val(krit1);
-			$("#krit2").val(krit2);
-			$("#krit3").val(krit3);
-			return true;
-		}
-</script>
+</script>			
+			
+			
+<div class="modal fade" id="myModalDetail" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+	aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <form role="form" action="<?php echo base_url(); ?>index.php/resto_con/submitRating" method="post">
-                        <h3 id = "nmkue">Detail Kue</h3>     
-						<input type="hidden" name="idkue" id="idkue" value="">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h3 id = "namaRm">Syarat dan Ketentuan</h3>     
 						<input type="hidden" name="idmember" id="idmember" value="">
 					</div>					  
-					<script>
-						function ganti(no){
-							var x = document.getElementsByName("score")[no].value;
-							$("#krit"+no).val(x);
-						}
-					</script>      
+                    <div class="modal-body">      
 						<table border=0 width=80%>
 							<thead>
 								<tr>
-									<td style="text-align:center" width=60%><img src=../../assets/img/trjfp_recycle_icons-enjoy.png width=50px height=50px><br>Ukuran</td>
-									<td style="text-align:center"><div class="raty" onclick="ganti(0);"></div><input type="hidden" name="skor1" id="krit0"></td>
-								</tr>
-								<tr>
-									<td style="text-align:center" width=60%><img src=../../assets/img/interiors-icon.jpg width=50px height=50px><br>Bahan</td>
-									<td> <div class="raty" onclick="ganti(1);"></div><input type="hidden" name="skor2" id="krit1"></td>
-								</tr>
-								<tr>
-									<td style="text-align:center" width=60%><img src=../../assets/img/menu-icon-250.png width=50px height=50px><br>Penyajian</td>
-									<td> <div class="raty" onclick="ganti(2);"></div><input type="hidden" name="skor3" id="krit2"></td>
-								</tr>
-								<tr>	
-									<td style="text-align:center" width=60%><img src=../../assets/img/flat-42-512.png width=50px height=50px><br>Rasa</td>
-									<td> <div class="raty" onclick="ganti(3);"></div><input type="hidden" name="skor4" id="krit3"></td>
-								</tr>	
-								<tr>	
-									<td style="text-align:center" width=60%>Komentar</td>
-									<td width=40%> <textarea name="komen"></textarea></td>
+									Dengan Memilih Untuk Menyimpan Data Produk, Berarti Anda Menyetujui Semua Syarat dan Ketentuan yang Berlaku:<br>									
+										<label class="checkbox-inline">
+											<input type="checkbox" id="inlineCheckbox1" value="option1"> Kue yang didaftarkan memenuhi setiap standar yang sudah ditetapkan
+										</label><br>
+										<label class="checkbox-inline">
+											<input type="checkbox" id="inlineCheckbox2" value="option2"> Mengirimkan pesanan yang ada dengan tepat waktu
+										</label><br>
+										<label class="checkbox-inline">
+											<input type="checkbox" id="inlineCheckbox3" value="option3"> Bersedia diberi sanksi jika melanggar salah satu persyaratan
+										</label><br>
 								</tr>
 							</thead>
-							<tbody id="isiTabelDetail">
+							<tbody id="isiDetail">
 							</tbody>
-						</table>					  
-						<center><button type="submit" class="btn btn-primary btn-round btn-lg" onclick="submitRating();"><strong>Simpan</strong></button>
-                        <a href="#" class="btn btn-primary btn-round btn-lg" data-dismiss="modal"><strong>Tutup</strong></a></center>						
+						</table>
+                    <div class="modal-footer">					  
+						<button type="submit" class="btn btn-primary btn-round btn-lg" onclick=""><strong>Simpan</strong></button>
+                        <a href="#" class="btn btn-primary btn-round btn-lg" data-dismiss="modal"><strong>Tutup</strong></a>                
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-	
-		
+    </div>			
+			
 	<footer class="row">
         <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="" target="_blank">Karina Levina
                 Witanto</a> SI 2013</p>

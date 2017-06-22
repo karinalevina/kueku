@@ -6,6 +6,7 @@ class Login_con extends CI_Controller{
     
     function __construct(){
         parent::__construct();
+		$this->load->library('session');
     }
     
     public function index($msg = NULL){
@@ -33,6 +34,9 @@ class Login_con extends CI_Controller{
             $msg = '<font color=red>Username dan/atau password Anda salah.</font><br />';
             $this->index($msg);
         } else{
+			$idmember=$this->session->userdata('idmember');
+			$username=$this->session->userdata('username');
+			//echo $username;
             redirect('resto_con/utama');
 		}
     }

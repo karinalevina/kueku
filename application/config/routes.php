@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "resto_con";
+//$route['do_logout'] = "index.php/resto_con/do_logout";
 $route['404_override'] = '';
 
 

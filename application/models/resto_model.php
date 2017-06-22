@@ -9,6 +9,9 @@ class Resto_model extends CI_Model {
     private $tbkue = 'tbkue';
     private $tbkategori = 'tbkategori';
     private $tbbuat = 'tbbuat';
+    private $tbdetbeli = 'tbdetbeli';
+    private $tbdetkeranjang = 'tbdetkeranjang';
+    private $tbkeranjang = 'tbkeranjang';
 
     function __construct()
     {
@@ -24,7 +27,7 @@ class Resto_model extends CI_Model {
 	}
     
 	function getPenjualById($idkue){
-		$this->db->select('tbmember.nmmember,tbbuat.nmkue,hrg,tbbuat.gambar');
+		$this->db->select('tbbuat.id,tbmember.idmember,tbmember.nmmember,tbbuat.nmkue,hrg,tbbuat.gambar');
 		$this->db->from($this->tbbuat);
 		$this->db->join($this->tbmember,'tbbuat.idpengrajin=tbmember.idmember');
 		$this->db->where('idkue',$idkue);
@@ -37,6 +40,146 @@ class Resto_model extends CI_Model {
 		$this->db->from($this->tbkategori);
 		$this->db->join($this->tbkue,'tbkategori.idkue=tbkue.idkue');
 		$this->db->where('tbkategori.idkue',$idkue);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
+	function cart($idbeli){
+		$this->db->select('tbbuat.nmkue,tbbuat.hrg,jmlh,subtotal');		
+		$this->db->from($this->tbdetbeli);
+		$this->db->join($this->tbbuat,'tbbuat.id=tbdetkeranjang.idkue');
+		$this->db->where('tbdetkeranjang.idbeli',$idbeli);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function insertcart($idkue, $jmlh){
+		$idmember = $this->session->userdata('idmember');
+		$this->db->select('idbeli');		
+		$this->db->from($this->tbkeranjang);
+		$this->db->where('proses',0);
+		$this->db->where('idpembeli',$idmember);
+		$query = $this->db->get();
+		if ($query->num_rows()>0){
+			foreach ($query1 as $notrx){
+				$notrx = $notrx->idbeli;
+			}
+		} else {
+			$this->db->select_max('idbeli');
+			$query1=$this->db->get('tbkeranjang');
+			if ($query1->num_rows()>0){
+				foreach ($query1->result() as $notrx){
+					$notrx1 = $notrx->idbeli+1;
+				}
+			} else {
+				$notrx1=1;
+			}
+			$tgl=date('Y-m-d');
+			$data=array(
+			   'idbeli' => $notrx1,
+			   'idpembeli' => $idmember,
+			   'tglbeli' => $tgl,
+			   'proses' => 0
+			);
+			$this->db->insert($this->tbkeranjang, $data);
+		}
+					
+		$i=0;
+		foreach ($idkue as $id){
+			if ($jmlh[$i]>0) {
+				$this->db->select('hrg');
+				$this->db->where('id', $id);
+				$query2=$this->db->get('tbbuat')->result();
+				foreach ($query2 as $hrg){
+					$harga=$hrg->hrg;
+				}
+					$this->idbeli  = $notrx1; 
+					$this->idkue  = $id; 
+					$this->jmlh = $jmlh[$i];
+					$this->subtotal = $jmlh[$i]*$harga;
+					$hasil= $this->db->insert('tbdetkeranjang', $this);
+			}
+			$i++;
+		}			
+	}
+
+	function updatejmlh($jmlh,$idkue,$subtotal) {
+		$idmember = $this->session->userdata('idmember');
+		$this->db->select('idbeli');
+		$this->db->where('proses',0);
+		$this->db->where('idpembeli',$idmember);
+		$query1=$this->db->get('tbkeranjang');
+		if ($query1->num_rows()>0) {
+			foreach ($query1->result() as $notrx){
+				$notrx1 = $notrx->idbeli;
+			}			
+			$data=array(
+			   'jmlh' => $jmlh,
+			   'subtotal' => $subtotal
+			);
+			$this->db->where('idbeli',$notrx1);
+			$this->db->where('idkue',$idkue);
+			$this->db->update($this->tbdetkeranjang, $data);
+
+		} 
+			
+	}
+	
+	function keranjang($id){
+		$this->db->select('idbeli');
+		$this->db->where('proses',0);
+		$this->db->where('idpembeli',$id);
+		$query1=$this->db->get('tbkeranjang');
+		if ($query1->num_rows()>0) {
+			foreach ($query1->result() as $notrx){
+				$notrx1 = $notrx->idbeli;
+			}			
+			$this->db->select('tbdetkeranjang.idkue,tbdetkeranjang.jmlh,tbdetkeranjang.subtotal,tbbuat.nmkue,tbbuat.hrg');		
+			$this->db->from($this->tbdetkeranjang);
+			$this->db->join($this->tbbuat,'tbbuat.id=tbdetkeranjang.idkue');
+			$this->db->where('idbeli',$notrx1);
+			$query1 = $this->db->get();
+		} 
+		return $query1->result();
+	}
+	
+	function bayar(){
+		$idmember = $this->session->userdata('idmember');
+		$this->db->where('proses',0);
+		$this->db->where('idpembeli',$idmember);
+		$query1=$this->db->get('tbkeranjang');
+		if ($query1->num_rows()>0) {
+
+			foreach ($query1->result() as $notrx){
+				$notrx1 = $notrx->idbeli;
+			}	
+			$tgl=date('Y-m-d');
+			$data=array(
+			   'idbeli' => $notrx1,
+			   'idpembeli' => $idmember,
+			   'tglbeli' => $tgl,
+			);
+			$this->db->insert($this->tbbeli, $data);
+
+			$this->db->from($this->tbdetkeranjang);
+			$this->db->where('idbeli',$notrx1);
+			$query1 = $this->db->get();
+			foreach ($query1->result() as $notrx){
+				$data=array(
+				   'idbeli' => $notrx1,
+				   'idkue' => $row->idkue,
+				   'jmlh' => $row->jmlh,
+				   'subtotal' => $row->subtotal,
+				);
+				$this->db->insert($this->tbdetbeli, $data);
+			}
+		}
+	}
+	
+	function getNamaMember($idmember){
+		$this->db->select('nmmember');		
+		$this->db->from($this->tbmember);
+		$this->db->where('idmember',$idmember);
 		$query = $this->db->get();
 		return $query->result();
 	}

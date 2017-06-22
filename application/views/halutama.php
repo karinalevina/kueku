@@ -4,7 +4,7 @@
 	<head>
 	
 	</head>
-	<body onload="load();">
+	<body>
 
 	<!-- topbar starts -->
     <div class="navbar navbar-default" role="navigation">
@@ -15,7 +15,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"> 
+            <a class="navbar-brand" href="#"> 
                 <span>Kueku</span></a>
 
             <!-- theme selector starts -->
@@ -28,7 +28,8 @@
                 <ul class="dropdown-menu" id="themes">
                     <li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
                     <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>
-                    <li><a data-value="cyborg" href="do_logout"><i class="whitespace"></i> Logout</a></li>
+                    <li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li>
+				</ul>
             </div>
             <!-- theme selector ends -->
 
@@ -36,7 +37,7 @@
                 <li><a href="#"><i class="glyphicon glyphicon-globe"></i> Syarat & Ketentuan</a></li>
                 <li class="dropdown">
 				<li>
-					<a href="#"><img src="/assets/img/blue-shopping-cart-icon-5505.jpg" width="30px" height="30px" class="hidden-xs"/></i></a>
+					<a href="#"><img src="/assets/img/icon/blue-shopping-cart-icon-5505.jpg" width="30px" height="30px" class="hidden-xs"/></i></a>
 				</li>
                 <li>
 					<input placeholder="Search" class="search-query form-control col-md-10" name="query" type="text">
@@ -45,8 +46,16 @@
 				<li>
 					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 				</li>
+				<li>
+					<?php 
+						if (null != $this->session->userdata('username')) {
+							$username=$this->session->userdata('username');
+							echo "Selamat Datang, ".$username;
+						}
+					?>
+				</li>
             </ul>
-
+			
         </div>
     </div>
     <!-- topbar ends -->
@@ -58,13 +67,13 @@
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main</li>
-                        <li><a class="ajax-link" href="index.html"><i class="glyphicon glyphicon-home"></i><span> Jualanku</span></a>
+                        <li><a href= "<?php echo base_url(); ?>index.php/resto_con/insertproduk"><i class="glyphicon glyphicon-home"></i><span> Jualanku</span></a>
                         </li>
                         <li><a href= "<?php echo base_url(); ?>index.php/resto_con/halrating"><i class="glyphicon glyphicon-eye-open"></i><span> Rating & Review</span></a>
                         </li>
-                        <li><a class="ajax-link" href="form.html"><i
+                        <!--<li><a class="ajax-link" href="form.html"><i
                                     class="glyphicon glyphicon-edit"></i><span> Kue</span></a></li>
-                        <!--<li><a class="ajax-link" href="chart.html"><i class="glyphicon glyphicon-list-alt"></i><span> Kategori</span></a>
+                        <li><a class="ajax-link" href="chart.html"><i class="glyphicon glyphicon-list-alt"></i><span> Kategori</span></a>
                         </li>-->
                         <li><a href= "<?php echo base_url(); ?>index.php/login_con/index"><i class="glyphicon glyphicon-lock"></i><span> Halaman Login</span></a>
                         </li>
@@ -84,9 +93,12 @@
         <li>
             <a href="<?php echo base_url(); ?>">Home</a>
         </li>
+		<li>
+            <a href="<?php echo base_url(); ?>index.php/resto_con/do_logout">Logout</a>
+        </li>
     </ul>
 	</div>
-	<div class="row">
+<div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
@@ -110,6 +122,8 @@
     </div>
 </div>
 
+<div class="row">
+	<div class="col-md-8 col-xs-6">
 	<?php
 	foreach($kue as $row){
 		$nmkue= $row->nmkue;
@@ -124,7 +138,7 @@
 						<!--						
 						<a data-toggle="pill" class="well top-block" href="#detjual"></i><img src="<?php //echo $row->gambar;?>" alt style= "width:100px" "height:50px"></a>
 						-->
-						<a data-toggle="pill" class="well top-block" href="" onclick="detpenjual(<?php echo $row->idkue;?>);"></i><img src="<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
+						<a data-toggle="pill" class="well top-block" href="" onclick="detpenjual(<?php echo $row->idkue;?>);"></i><img src="/assets/img/produk/<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
 						<a data-toggle="pill" class="well top-block" href="" onclick="detstandar(<?php echo $row->idkue;?>);"><strong>Detail</strong></button></a>
 						<!--<button type="submit" class="btn btn-primary btn-round btn-lg" onclick="detstandar(<?php echo $row->idkue;?>);"><strong>Detail</strong></button>-->
 					<?php
@@ -138,9 +152,68 @@
 		</div>
 	</div>
 <?php  }   ?>
+	</div>
+	<div class="col-md-4 col-xs-6">
+        <div class="nav-canvas">
+                <ul class="nav nav-pills nav-stacked main-menu">
+					<form role="form" action="<?php echo base_url(); ?>index.php/resto_con/bayar" method="post">					
+                    <table class="table table-striped">
+						<tr>
+							<td><a href= ""></i><span> Nama Kue</span></a></td>
+							<td><a href= ""></i><span> Harga (Rp)</span></a></td>
+							<td></td><td><a href= ""></i><span> Jumlah</span></a></td><td></td>
+							<td><a href= ""></i><span> Subtotal (Rp)</span></a></td>
+						</tr>
+						<?php
+							$i = 0;
+							foreach($kbelanja as $row){?>
+								<tr>
+									<td style="text-align:center" width="60%"><a class="well top-block"><?php echo $row->nmkue;?></a><br>
+									<td style="text-align:center" width="60%"><a class="well top-block" name="hrg[]"><?php echo $row->hrg;?></a><br></td>
+									<td style="text-align:center" width="60%">
+										<input type="hidden" class="form-control" name="idkue[]" value='<?php echo $row->idkue;?>'>
+										<a href="#" onclick="ubahjml(-1,<?php echo $i;?>);" class="well top-block">-</a></td>
+									<td><input type="text" name="jumlah[]" id="jumlah[]" class="well top-block" value=<?php echo $row->jmlh;?> style="width:50px;"></td>
+									<td><a href="#" onclick="ubahjml(1,<?php echo $i;?>);" class="well top-block">+</a></td>
+									<td style="text-align:center" width="60%"><a class="well top-block" name="subtotal[]"><?php echo $row->subtotal;?></a><br></td>
+									<td><a href="#" class='well top-block'>x</a><br></td>
+								</tr>
+							<?php $i++; } ?>
+							<a href="#" class='well top-block'>Bayar</a><br>
+					</table>
+					</form>
+                </ul>
+        </div>
+	</div>
+</div>
 
 <script>
-
+		function ubahjml(jml,no) {
+			var i=0;
+			var idkue=document.getElementsByName("idkue[]");
+			var harga=document.getElementsByName("hrg[]");
+			$("input[name='jumlah[]']").each(function() {
+				var jumlah=parseInt($(this).val())+jml;
+				if (i == no && jumlah >= 0) { 
+					$(this).val(jumlah);
+					var id=idkue[i].value;
+					var hrg=harga[i].innerText;
+					var subtot = parseInt(hrg) * jumlah;
+					$.ajax({
+						type:"POST",
+						url : "<?php echo base_url(); ?>index.php/resto_con/ubahjmlh",
+						data : ({'idkue': id , 'subtotal': subtot, 'jmlh': jumlah}),
+						success : function(data){
+							
+						},
+						error: function(err,tr,ss)  {
+						}
+					});			
+				}
+				i++;
+			});
+		}
+				
 		function detpenjual(idkue) {
 			//document.getElementById("idResto").value=idRm;
 			//document.getElementById("namaRm").innerHTML=nama+"<br>"+alamat;
@@ -149,6 +222,9 @@
 				url : "<?php echo base_url(); ?>index.php/resto_con/penjual",
 				data : {"id" : idkue},
 				success : function(data){
+					var ur = "<?php echo base_url(); ?>index.php/resto_con/penjual";
+					
+					$("#formaksi").action = ur;
 					document.getElementById("isiDetail").innerHTML=data;
 				}
 			});			
@@ -164,6 +240,7 @@
 				url : "<?php echo base_url(); ?>index.php/resto_con/standar",
 				data : {"id" : idkue},
 				success : function(data){
+					$("#formaksi").action = "<?php echo base_url(); ?>index.php/resto_con/standar";
 					document.getElementById("isiDetail").innerHTML=data;
 				}
 			});			
@@ -176,7 +253,7 @@
 	aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form role="form" action="<?php echo base_url(); ?>index.php/resto_con/utama" method="post">
+                <form id="formaksi" role="form" action="<?php echo base_url(); ?>index.php/resto_con/insertcart" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">x</button>
                         <h3 id = "namaRm">Standar Kue</h3>     
@@ -190,12 +267,14 @@
 						</table>
                     <div class="modal-footer">					  
 						<!--<button type="submit" class="btn btn-primary btn-round btn-lg" onclick="submitRating();"><strong>Beli</strong></button>-->
+                        <button type='submit' class='btn btn-primary btn-round btn-lg'>Beli</button>						
                         <a href="#" class="btn btn-primary btn-round btn-lg" data-dismiss="modal"><strong>Tutup</strong></a>                
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
 		
 	<footer class="row">
         <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="" target="_blank">Karina Levina
