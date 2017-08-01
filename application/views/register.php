@@ -4,7 +4,7 @@ include('assets/header.php'); ?>
 
     <div class="row">
         <div class="col-md-12 center login-header">
-            <h2>Selamat Datang di Aplikasi Kueku!</h2>
+            <h2>Selamat Datang di Aplikasi KueKu!</h2>
         </div>
     </div>
 

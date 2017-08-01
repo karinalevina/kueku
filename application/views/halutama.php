@@ -16,7 +16,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#"> 
-                <span>Kueku</span></a>
+                <span>KueKu</span></a>
 
             <!-- theme selector starts -->
             <div class="btn-group pull-right theme-container animated tada">
@@ -28,34 +28,25 @@
                 <ul class="dropdown-menu" id="themes">
                     <li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
                     <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>
-                    <li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li>
+                    <!--<li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
 				</ul>
             </div>
             <!-- theme selector ends -->
 
             <ul class="collapse navbar-collapse nav navbar-nav top-menu">
-                <li><a href="#"><i class="glyphicon glyphicon-globe"></i> Syarat & Ketentuan</a></li>
+                <li><a href="<?php echo base_url(); ?>"><i class="glyphicon glyphicon-home"></i> Halaman Utama</a></li>
                 <li class="dropdown">
-				<li>
-					<a href="#"><img src="/assets/img/icon/blue-shopping-cart-icon-5505.jpg" width="30px" height="30px" class="hidden-xs"/></i></a>
-				</li>
+				
+					
                 <li>
-					<input placeholder="Search" class="search-query form-control col-md-10" name="query" type="text">
+					<form role="form" action="<?php echo base_url(); ?>index.php/resto_con/search" method="post"><input placeholder="Nama Kue" class="search-query form-control col-md-10" name="search" type="text">
                     
                 </li>
 				<li>
-					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></form>
 				</li>
-				<li>
-					<?php 
-						if (null != $this->session->userdata('username')) {
-							$username=$this->session->userdata('username');
-							echo "Selamat Datang, ".$username;
-						}
-					?>
-				</li>
+				
             </ul>
-			
         </div>
     </div>
     <!-- topbar ends -->
@@ -66,20 +57,26 @@
                     <div class="nav-sm nav nav-stacked">
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
-                        <li class="nav-header">Main</li>
-                        <li><a href= "<?php echo base_url(); ?>index.php/resto_con/insertproduk"><i class="glyphicon glyphicon-home"></i><span> Jualanku</span></a>
+                        <li class="nav-header">Main</li>          
+						<li>
+							<a href= "<?php echo base_url(); ?>index.php/resto_con/insertproduk"><i class="glyphicon glyphicon-user"></i><span> JualanKu</span></a>
                         </li>
-                        <li><a href= "<?php echo base_url(); ?>index.php/resto_con/halrating"><i class="glyphicon glyphicon-eye-open"></i><span> Rating & Review</span></a>
+                        <li>
+							<a href= "<?php echo base_url(); ?>index.php/resto_con/halrating"><i class="glyphicon glyphicon-eye-open"></i><span> Rating & Review</span></a>
                         </li>
-                        <!--<li><a class="ajax-link" href="form.html"><i
-                                    class="glyphicon glyphicon-edit"></i><span> Kue</span></a></li>
-                        <li><a class="ajax-link" href="chart.html"><i class="glyphicon glyphicon-list-alt"></i><span> Kategori</span></a>
-                        </li>-->
-                        <li><a href= "<?php echo base_url(); ?>index.php/login_con/index"><i class="glyphicon glyphicon-lock"></i><span> Halaman Login</span></a>
+                        <li>
+							<a href= "<?php echo base_url(); ?>index.php/login_con/index"><i class="glyphicon glyphicon-lock"></i><span> Halaman Login</span></a>
                         </li>
-						<li><a href= "<?php echo base_url(); ?>index.php/login_con/registrasi"><i class="glyphicon glyphicon-lock"></i><span> Halaman Sign Up</span></a>
+						<li>
+							<a href= "<?php echo base_url(); ?>index.php/login_con/registrasi"><i class="glyphicon glyphicon-lock"></i><span> Halaman Sign Up</span></a>
                         </li>
                     </ul>
+							<?php 
+								if (null != $this->session->userdata('username')) {
+									$username=$this->session->userdata('username');
+									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$username;
+								}
+							?></font></a>
                 </div>
             </div>
         </div>
@@ -98,6 +95,8 @@
         </li>
     </ul>
 	</div>
+	<?php echo $pesan; ?>
+	
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
@@ -120,13 +119,12 @@
             </div>
         </div>
     </div>
-</div>
-
+</div>	
 <div class="row">
 	<div class="col-md-8 col-xs-6">
 	<?php
 	foreach($kue as $row){
-		$nmkue= $row->nmkue;
+		$nmkue= $row->namakue;
 		?>
 	<div id="item">
 		<div class="col-md-3 col-sm-6">
@@ -134,7 +132,7 @@
 				<div class="product-thumb">					
 					<div class="product-content">
 						<?php
-						echo "<h3><strong>".$row->nmkue."</strong></h3>";?>
+						echo "<h3><strong>".$row->namakue."</strong></h3>";?>
 						<!--						
 						<a data-toggle="pill" class="well top-block" href="#detjual"></i><img src="<?php //echo $row->gambar;?>" alt style= "width:100px" "height:50px"></a>
 						-->
@@ -153,37 +151,49 @@
 	</div>
 <?php  }   ?>
 	</div>
-	<div class="col-md-4 col-xs-6">
-        <div class="nav-canvas">
-                <ul class="nav nav-pills nav-stacked main-menu">
-					<form role="form" action="<?php echo base_url(); ?>index.php/resto_con/bayar" method="post">					
-                    <table class="table table-striped">
-						<tr>
-							<td><a href= ""></i><span> Nama Kue</span></a></td>
-							<td><a href= ""></i><span> Harga (Rp)</span></a></td>
-							<td></td><td><a href= ""></i><span> Jumlah</span></a></td><td></td>
-							<td><a href= ""></i><span> Subtotal (Rp)</span></a></td>
-						</tr>
-						<?php
-							$i = 0;
-							foreach($kbelanja as $row){?>
-								<tr>
-									<td style="text-align:center" width="60%"><a class="well top-block"><?php echo $row->nmkue;?></a><br>
-									<td style="text-align:center" width="60%"><a class="well top-block" name="hrg[]"><?php echo $row->hrg;?></a><br></td>
-									<td style="text-align:center" width="60%">
-										<input type="hidden" class="form-control" name="idkue[]" value='<?php echo $row->idkue;?>'>
-										<a href="#" onclick="ubahjml(-1,<?php echo $i;?>);" class="well top-block">-</a></td>
-									<td><input type="text" name="jumlah[]" id="jumlah[]" class="well top-block" value=<?php echo $row->jmlh;?> style="width:50px;"></td>
-									<td><a href="#" onclick="ubahjml(1,<?php echo $i;?>);" class="well top-block">+</a></td>
-									<td style="text-align:center" width="60%"><a class="well top-block" name="subtotal[]"><?php echo $row->subtotal;?></a><br></td>
-									<td><a href="#" class='well top-block'>x</a><br></td>
-								</tr>
+<div class="col-md-4 col-xs-6">
+	<div class="nav-canvas">
+		<ul class="nav nav-pills nav-stacked main-menu">
+			<form role="form" action="<?php echo base_url(); ?>index.php/resto_con/checkout" method="post">
+					<input type="hidden" class="form-control" name="idbeli" value='<?php echo $idbeli;?>'>
+					<button type='submit' class='btn btn-primary btn-round btn-lg' <?php if ($jum_beli==0) echo 'disabled';?>> Checkout</button>
+			</form>						
+			<table class="table table-striped">
+				<tr>
+					<td><a href= ""></i><span> Nama Kue</span></a></td>
+					<td><a href= ""></i><span> Harga (Rp)</span></a></td>
+					<td></td><td><a href= ""></i><span> Jumlah</span></a></td><td></td>
+					<td><a href= ""></i><span> Subtotal (Rp)</span></a></td>
+				</tr>
+				<?php
+					if (null != $this->session->userdata('username') && $jum_beli>0) {
+						$i = 0;
+						foreach($kbelanja as $row){?>
+							<tr>
+								<td style="text-align:center" width="60%"><a class="well top-block"><?php echo $row->nmkue;?></a><br>
+								<td style="text-align:center" width="60%"><a class="well top-block" name="hrg[]"><?php echo $row->hrg;?></a><br></td>
+								<td style="text-align:center" width="60%">
+									<input type="hidden" class="form-control" name="idkue[]" value='<?php echo $row->idkue;?>'>
+									<a href="#" onclick="ubahjml(-1,<?php echo $i;?>);" class="well top-block">-</a></td>
+								<td><input type="text" name="jumlah[]" id="jumlah[]" class="well top-block" value=<?php echo $row->jmlh;?> style="width:50px;"></td>
+								<td><a href="#" onclick="ubahjml(1,<?php echo $i;?>);" class="well top-block">+</a></td>
+								<td style="text-align:center" width="60%"><a class="well top-block" name="subtotal[]"><?php echo $row->subtotal;?></a><br></td>
+								<td><form role="form" action="<?php echo base_url(); ?>index.php/resto_con/hapuskue" method="post">
+									<input type="hidden" class="form-control" name="idkue1" value='<?php echo $row->idkue;?>'>
+									<input type="hidden" class="form-control" name="idbeli" value='<?php echo $idbeli;?>'>
+									<button type='submit' class='btn btn-primary btn-round btn-lg'>x</button></form></td>
+							</tr>
 							<?php $i++; } ?>
-							<a href="#" class='well top-block'>Bayar</a><br>
-					</table>
-					</form>
-                </ul>
-        </div>
+		<?php
+			foreach($total as $row){?>
+				<input type="hidden" class="form-control" name="idbeli" value='<?php echo $row->idbeli;?>'>
+					<a class="well top-block">Total Rp <?php echo $row->subtotal;?></a><br>
+			<?php } 
+			} else { ?>
+				Keranjang Belanja Masih Kosong, Ayo Berbelanja!
+			<?php } ?>			
+        </table>
+		</ul></div>
 	</div>
 </div>
 

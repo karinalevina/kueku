@@ -34,12 +34,19 @@ class Login_con extends CI_Controller{
             $msg = '<font color=red>Username dan/atau password Anda salah.</font><br />';
             $this->index($msg);
         } else{
-			$idmember=$this->session->userdata('idmember');
-			$username=$this->session->userdata('username');
-			//echo $username;
-            redirect('resto_con/utama');
+			foreach ($result as $stat) {
+				$status=$stat->status;
+			}
+			if ($status!=2) {
+				//$idmember=$this->session->userdata('idmember');
+				//$username=$this->session->userdata('username');
+				redirect('resto_con/utama');
+			} else {
+				redirect('resto_con/standaradmin');
+			}
+			
 		}
-    }
+	}
 
 	public function signup(){
         // mengambil inputan user
@@ -61,7 +68,7 @@ class Login_con extends CI_Controller{
 			$msg = '<font color=green>Anda sudah teregistrasi, Silahkan Login!</font><br />';
             $this->index($msg);
 		}
-    }	
+    }
 }
 
 ?>

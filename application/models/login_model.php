@@ -7,7 +7,16 @@ class Login_model extends CI_Model{
         parent::__construct();
     }
     
-	private $tbmember = 'tbmember';
+	private $tbpengrajin = 'tbpengrajin';
+    private $tbmember = 'tbmember';
+    private $tbfeedback = 'tbfeedback';
+    private $tbbeli = 'tbbeli';
+    private $tbkue = 'tbkue';
+    private $tbkategori = 'tbkategori';
+    private $tbbuat = 'tbbuat';
+    private $tbdetbeli = 'tbdetbeli';
+    private $tbdetkeranjang = 'tbdetkeranjang';
+    private $tbkeranjang = 'tbkeranjang';
 	
     public function validasi($user, $pass){
         // Mempersiapkan query
@@ -26,6 +35,7 @@ class Login_model extends CI_Model{
 			session_start();
 			$this->session->set_userdata('idmember',$data['idmember']);
 			$this->session->set_userdata('username',$data['username']);
+			return $query->result();
 			return true;
 		}
 		return false;
@@ -45,6 +55,38 @@ class Login_model extends CI_Model{
 			$hasil= $this->db->insert('tbmember', $this);
 			return $hasil;
 		}
+	}
+	
+	public function cekpesanan($idmember) {
+		$this->db->from($this->tbmember);
+		$this->db->join($this->tbbuat,'tbmember.idmember=tbbuat.idpengrajin');
+		$this->db->join($this->tbdetbeli,'tbdetbeli.idkue=tbbuat.id');
+		$this->db->join($this->tbbeli,'tbdetbeli.idbeli=tbbeli.idbeli');
+		$this->db->where('idmember',$idmember);
+		$this->db->where('tbbeli.proses',2);
+		$this->db->where('status',1);
+		$query = $this->db->get();
+		if($query->num_rows>0) {
+			$hasil=$query->row();
+			return true;
+		}
+		return false;
+	}
+	
+	public function cekpesananpembeli($idmember) {
+		$this->db->from($this->tbmember);
+		$this->db->join($this->tbbuat,'tbmember.idmember=tbbuat.idpengrajin');
+		$this->db->join($this->tbdetbeli,'tbdetbeli.idkue=tbbuat.id');
+		$this->db->join($this->tbbeli,'tbdetbeli.idbeli=tbbeli.idbeli');
+		$this->db->where('idpembeli',$idmember);
+		$this->db->where('tbbeli.proses',2);
+		//$this->db->where('status',0);
+		$query = $this->db->get();
+		if($query->num_rows>0) {
+			$hasil=$query->row();
+			return true;
+		}
+		return false;
 	}
 }
 ?>
