@@ -150,18 +150,18 @@ class Resto_con extends CI_Controller {
 	public function tmbhkue(){
 		$config['upload_path']          = './assets/img/produk/';
 		$config['allowed_types']        = 'gif|jpg|png';
-		$config['max_size']             = 300;
-		$config['max_width']            = 1300;
-		$config['max_height']           = 768;
+		$config['max_size']             = 1000;
+		$config['max_width']            = 2000;
+		$config['max_height']           = 2000;
 		
 		$this->load->library('upload', $config);
  
 		if ( ! $this->upload->do_upload('berkas')){
 			echo '<script type="text/javascript">
 					alert ("Upload Gagal, Ukuran File Terlalu Besar");
-					location="resto_con/insertproduk";
+					history.go(-1);
 				  </script>';
-		}else {//if (null != $this->session->userdata('username')) {
+		}else if (null != $this->session->userdata('username')) {
 			$idmember = $this->session->userdata('idmember');
 			$idkue = $this->input->post('kategori');
 			$nmkue = $this->input->post('nmkue');
@@ -171,12 +171,12 @@ class Resto_con extends CI_Controller {
 			$this->load->model('resto_model');
 			$this->resto_model->tmbhkue($idmember,$idkue,$nmkue,$hrg,$gambar);			
 			redirect('resto_con/insertproduk');
-		} //else {
-			//echo '<script type="text/javascript">
-				//	alert ("Anda Belum Dapat Menambah Produk, Silahkan Login Dulu");
-					//location="resto_con/insertproduk";
-				  //</script>'; 
-		//}
+		} else {
+			echo '<script type="text/javascript">
+				alert ("Anda Belum Dapat Menambah Produk, Silahkan Login Dulu");
+				location="resto_con/insertproduk";
+				</script>'; 
+		}
 	}
 	
 	public function uploadstandar(){
@@ -563,7 +563,7 @@ class Resto_con extends CI_Controller {
 		$query = $this->resto_model->org($id);
 		$data="";
 		foreach($query as $row){		
-			$data .= $id."<h3><strong>".$row->nmmember. "</strong><br></h3><h4>" .$row->nmkue. " (".$row->waktu.")</h4>";
+			$data .= "<h3><strong>".$row->nmmember. "</strong><br></h3><h4>" .$row->nmkue. " (".$row->waktu.")</h4>";
 			$data .= "<h5><i><font color='orange'>".$row->review. "</font></i></h5><br>";
 			$data .= "<p style='vertical-align:middle;'><img src=/assets/img/icon/icon-765124_960_720.jpg width=50px height=50px>".$row->ukuran.
 				"&nbsp;<img src=/assets/img/icon/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px>".$row->bahan.

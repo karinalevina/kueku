@@ -91,7 +91,10 @@
 				<a href="<?php echo base_url(); ?>">Home</a>
 			</li>
 			<li>
-				<a href="<?php echo base_url(); ?>index.php/resto_con/do_logout">Logout</a>
+				<?php
+					if (null != $this->session->userdata('username')) { ?>
+						<a href="<?php echo base_url(); ?>index.php/resto_con/do_logout">Logout</a>
+				<?php } ?>
 			</li>			
 		</ul>
 	</div>
@@ -143,7 +146,6 @@
 	}
 	
 	function rating(id) {
-		alert(id);
 		$.ajax({
 			type:"POST",
 			url : "<?php echo base_url(); ?>index.php/resto_con/org",
@@ -229,7 +231,7 @@
 								echo "<h3><strong>".$row->nmkue."</strong></h3>";?>
 								<input type="hidden" class="form-control" name="id" value='<?php echo $row->id;?>'>
 								<a data-toggle="pill" class="well top-block" href=""></i><img src="/assets/img/produk/<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
-								<a data-toggle="pill" class="well top-block" href="" onclick="alert(1);rating(<?php echo $row->id;?>);"><strong> Orang Mereview</strong></button></a>
+								<a data-toggle="pill" class="well top-block" href="" onclick="rating(<?php echo $row->id;?>);"><strong> Orang Mereview</strong></button></a>
 							
 							</div>
 						</div>

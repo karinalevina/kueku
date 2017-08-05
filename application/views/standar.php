@@ -55,7 +55,10 @@
             <a href="<?php echo base_url(); ?>index.php/resto_con/standaradmin">Home</a>
         </li>
 		<li>
-            <a href="<?php echo base_url(); ?>index.php/resto_con/do_logout">Logout</a>
+            <?php
+				if (null != $this->session->userdata('username')) { ?>
+					<a href="<?php echo base_url(); ?>index.php/resto_con/do_logout">Logout</a>
+			<?php } ?>
         </li>
     </ul>
 	</div>
