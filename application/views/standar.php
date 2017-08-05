@@ -239,7 +239,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">x</button>
                         <h3 id = "namaRm">Keterangan Kue</h3>
-						<input type="text" id="idkategori" name="idkategori">
+						<input type="hidden" id="idkategori" name="idkategori">
 					</div>					  
                     <div class="modal-body">
 						<div class="row">

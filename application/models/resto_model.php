@@ -34,7 +34,7 @@ class Resto_model extends CI_Model {
 	}
 	
 	function tampilkuehalrating() {
-		$this->db->from($this->tbkue);
+		$this->db->from($this->tbbuat);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -63,18 +63,17 @@ class Resto_model extends CI_Model {
 		return $query->result();
 	}
 	
-	function org($idkue){
-		$idmember = $this->session->userdata('idmember');
-		$this->db->select('tbbuat.id,tbbuat.idkue,tbbuat.nmkue,tbkue.idkue,tbkue.namakue,tbkue.gambar,tbfeedback.idpembeli,tbfeedback.ukuran,tbfeedback.bahan,tbfeedback.penyajian,tbfeedback.rasa,review,waktu,tbmember.nmmember,tbfeedback.idkue');		
-		$this->db->from($this->tbfeedback);
-		$this->db->join($this->tbbuat,'tbbuat.id=tbfeedback.idkue');
-		$this->db->join($this->tbkue,'tbbuat.idkue=tbkue.idkue');
-		$this->db->join($this->tbkategori,'tbkategori.idkue=tbkue.idkue');
+	function org($id){
+		//$idmember = $this->session->userdata('idmember');
+		$this->db->select('tbbuat.id,tbbuat.idkue,tbbuat.nmkue,tbfeedback.idpembeli,ukuran,bahan,penyajian,rasa,review,waktu,tbmember.nmmember,tbfeedback.idkue');		
+		$this->db->from($this->tbbuat);
+		$this->db->join($this->tbfeedback,'tbfeedback.idkue=tbbuat.id');
+		//$this->db->join($this->tbkue,'tbbuat.idkue=tbkue.idkue');
+		//$this->db->join($this->tbkategori,'tbkategori.idkue=tbkue.idkue');
 		$this->db->join($this->tbmember,'tbmember.idmember=tbfeedback.idpembeli');
-		$this->db->where('tbfeedback.idpembeli !=',$idmember);
-		$this->db->where('tbkategori.idkue',$idkue);
+		$this->db->where('id',$id);
+		//$this->db->where('tbkategori.idkue',$idkue);
 		$this->db->order_by('waktu', 'desc');
-		$this->db->limit(5);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -313,17 +312,17 @@ class Resto_model extends CI_Model {
 		return $query1;
 	}
 		
-	function tampilrating($idmember) {
-		$this->db->select('tbfeedback.idpembeli,tbbuat.idkue,ukuran,bahan,penyajian,rasa,review,waktu,tbmember.nmmember,tbbuat.nmkue');		
+	/*function tampilrating($idmember) {
+		$this->db->select('tbmember.idmember,tbfeedback.idpembeli,tbbuat.idkue,tbfeedback.ukuran,tbfeedback.bahan,tbfeedback.penyajian,tbfeedback.rasa,review,waktu,tbbuat.nmkue,tbbuat.id,tbkue.idkue,tbfeedback.idkue');		
 		$this->db->from($this->tbfeedback);
-		$this->db->join($this->tbbuat,'tbbuat.idkue=tbfeedback.idkue');
+		$this->db->join($this->tbbuat,'tbfeedback.idkue=tbbuat.id');
+		$this->db->join($this->tbkue,'tbbuat.id=tbkue.idkue');
 		$this->db->join($this->tbmember,'tbmember.idmember=tbfeedback.idpembeli');
-		$this->db->where('tbfeedback.idpembeli !=',$idmember);
+		$this->db->where('tbfeedback.idpembeli',$idmember);
 		$this->db->order_by('waktu', 'desc');
-		$this->db->limit(5);
 		$query = $this->db->get();
 		return $query->result();
-	}
+	}*/
 	
 	function halcheckout($idmember) {
 		$this->db->select('tbkeranjang.idbeli');

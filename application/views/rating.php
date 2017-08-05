@@ -140,20 +140,21 @@
 		return true;
 	}
 	
-	function rating(idkue) {
+	function rating(id) {
+		alert(id);
 		$.ajax({
 			type:"POST",
 			url : "<?php echo base_url(); ?>index.php/resto_con/org",
-			data : {"id" : idkue},
+			data : {"id" : id},
 			success : function(data){
-				$("#formaksi").action = "<?php echo base_url(); ?>index.php/resto_con/org";
 				document.getElementById("isiDetail").innerHTML=data;
-			}
+				//$("#formaksi").action = "<?php echo base_url(); ?>index.php/resto_con/org";
+				}
 		});			
-		document.getElementById("namaRm").innerHTML = "Orang Mereview";
+		//document.getElementById("namaRm").innerHTML = "Orang Mereview";
 		$('#myModal').modal('show');
 	}
-	
+
 	function belanja(pros){
 			$.ajax({
 				type:"POST",
@@ -215,7 +216,7 @@
 	<center>
 	<?php
 	foreach($kue as $row){
-		$nmkue= $row->namakue;
+		$nmkue= $row->nmkue;
 		?>
 			<div id="item">
 				<div class="col-md-3 col-sm-6">
@@ -223,10 +224,11 @@
 						<div class="product-thumb">					
 							<div class="product-content">
 								<?php
-								echo "<h3><strong>".$row->namakue."</strong></h3>";?>
-								<input type="hidden" class="form-control" name="idkue" value='<?php echo $row->idkue;?>'>
+								echo "<h3><strong>".$row->nmkue."</strong></h3>";?>
+								<input type="hidden" class="form-control" name="id" value='<?php echo $row->id;?>'>
 								<a data-toggle="pill" class="well top-block" href=""></i><img src="/assets/img/produk/<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
-								<a data-toggle="pill" class="well top-block" href="" onclick="rating(<?php echo $row->idkue;?>);"><strong> Orang Mereview</strong></button></a>
+								<a data-toggle="pill" class="well top-block" href="" onclick="rating(<?php echo $row->id;?>);"><strong> Orang Mereview</strong></button></a>
+							
 							</div>
 						</div>
 					</div>

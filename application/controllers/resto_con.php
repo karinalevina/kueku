@@ -16,6 +16,11 @@ class Resto_con extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}	
+	 
 	public function index()
 	{
 		$this->utama();
@@ -29,7 +34,7 @@ class Resto_con extends CI_Controller {
 	public function halrating(){
 		$idmember = $this->session->userdata('idmember');
 		$this->load->model('resto_model');
-		$data['ops'] = $this->resto_model->tampilrating($idmember);
+		//$data['ops'] = $this->resto_model->tampilrating($idmember);
 		$data['kue']= $this->resto_model->tampilkuehalrating();
 		$result = $this->resto_model->pesanan();
 		$pesanan="";
@@ -146,17 +151,17 @@ class Resto_con extends CI_Controller {
 		$config['upload_path']          = './assets/img/produk/';
 		$config['allowed_types']        = 'gif|jpg|png';
 		$config['max_size']             = 300;
-		$config['max_width']            = 1024;
+		$config['max_width']            = 1300;
 		$config['max_height']           = 768;
 		
 		$this->load->library('upload', $config);
  
 		if ( ! $this->upload->do_upload('berkas')){
 			echo '<script type="text/javascript">
-					alert ("Upload Gagal");
+					alert ("Upload Gagal, Ukuran File Terlalu Besar");
 					location="resto_con/insertproduk";
 				  </script>';
-		}else if (null != $this->session->userdata('username')) {
+		}else {//if (null != $this->session->userdata('username')) {
 			$idmember = $this->session->userdata('idmember');
 			$idkue = $this->input->post('kategori');
 			$nmkue = $this->input->post('nmkue');
@@ -166,24 +171,23 @@ class Resto_con extends CI_Controller {
 			$this->load->model('resto_model');
 			$this->resto_model->tmbhkue($idmember,$idkue,$nmkue,$hrg,$gambar);			
 			redirect('resto_con/insertproduk');
-		} else {
-			echo '<script type="text/javascript">
-					alert ("Anda Belum Dapat Menambah Produk, Silahkan Login Dulu");
-					location="resto_con/insertproduk";
-				  </script>'; 
-		}
+		} //else {
+			//echo '<script type="text/javascript">
+				//	alert ("Anda Belum Dapat Menambah Produk, Silahkan Login Dulu");
+					//location="resto_con/insertproduk";
+				  //</script>'; 
+		//}
 	}
 	
 	public function uploadstandar(){
 		$idkue = $this->input->post('kategori');
-		echo $idkue;
 		$ukuran = $this->input->post('ukuran');
 		$bahan = $this->input->post('bahan');
 		$penyajian = $this->input->post('penyajian');
 		$rasa = $this->input->post('rasa');
 		$this->load->model('resto_model');
 		$this->resto_model->uploadstandar($idkue,$ukuran,$bahan,$penyajian,$rasa);			
-		('resto_con/standaradmin');
+		redirect('resto_con/standaradmin');
 	}
 	
 	public function editkue() {
@@ -554,40 +558,17 @@ class Resto_con extends CI_Controller {
 	}
 	
 	public function org(){
-		$idkue = $this->input->post('id');
+		$id = $this->input->post('id');
 		$this->load->model('resto_model');
-		$query = $this->resto_model->org($idkue);
+		$query = $this->resto_model->org($id);
 		$data="";
-		foreach($query as $row){
-			/*$data .= "<table border=0 width=100%>
-						<tr><h3><strong>".$row->namakue."</strong></h3></tr>
-					</table>";
-			$data .= "<table border=0 width=100%>
-							<thead>
-								<tr>
-									<td class='col1'><img src=/assets/img/icon/icon-765124_960_720.jpg width=50px height=50px><br>Ukuran</td>
-									<td class='col2'><a class='well top-block'>".$row->ukuran."</a><br></p>
-								</tr
-								<tr>
-									<td style='col1'><img src=/assets/img/icon/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px><br>Bahan</td>
-									<td style='col2'><a class='well top-block'>".$row->bahan."</a><br>
-								</tr>
-								<tr>
-									<td style='col1'><img src=/assets/img/icon/128268-200.png width=50px height=50px><br>Penyajian</td>
-									<td style='col2'><a class='well top-block'>".$row->penyajian."</a><br>
-								</tr>
-								<tr>	
-									<td style='col1'><img src=/assets/img/icon/Savouring-Emoji-Taste-Tongue-Emoticon-512.png width=50px height=50px><br>Rasa</td>
-									<td style='col2'><a class='well top-block'>".$row->rasa."</a><br>
-								</tr>	
-							</thead>*///";
-		
-		$data .= "<h3><strong>".$row->nmmember. "</strong><br></h3><h4>" .$row->nmkue. " (".$row->waktu.")</h4>";
-		$data .= "<h5><i><font color='orange'>".$row->review. "</font></i></h5><br>";
-		$data .= "<p style='vertical-align:middle;'><img src=/assets/img/icon/icon-765124_960_720.jpg width=50px height=50px>".$row->ukuran.
-			"&nbsp;<img src=/assets/img/icon/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px>".$row->bahan.
-			"&nbsp;<img src=/assets/img/icon/128268-200.png width=50px height=50px>".$row->penyajian.
-			"&nbsp;<img src=/assets/img/icon/Savouring-Emoji-Taste-Tongue-Emoticon-512.png width=50px height=50px>".$row->rasa;
+		foreach($query as $row){		
+			$data .= $id."<h3><strong>".$row->nmmember. "</strong><br></h3><h4>" .$row->nmkue. " (".$row->waktu.")</h4>";
+			$data .= "<h5><i><font color='orange'>".$row->review. "</font></i></h5><br>";
+			$data .= "<p style='vertical-align:middle;'><img src=/assets/img/icon/icon-765124_960_720.jpg width=50px height=50px>".$row->ukuran.
+				"&nbsp;<img src=/assets/img/icon/depositphotos_7599564-stock-photo-recipe-icon.jpg width=50px height=50px>".$row->bahan.
+				"&nbsp;<img src=/assets/img/icon/128268-200.png width=50px height=50px>".$row->penyajian.
+				"&nbsp;<img src=/assets/img/icon/Savouring-Emoji-Taste-Tongue-Emoticon-512.png width=50px height=50px>".$row->rasa;
 		} echo $data;
 	}
 	
