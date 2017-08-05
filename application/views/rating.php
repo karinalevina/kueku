@@ -127,8 +127,10 @@
 		$('#myModalDetail').modal('show');
 	}
 	
-	function submitRating(){
+	function submitRating(){		
+		<?php if (null != $this->session->userdata('username')) { ?> 
 		document.getElementById("idmember").value=<?php echo $this->session->userdata('idmember')?>;
+		<?php } ?>
 		var krit0 = document.getElementsByName("score")[0].value;
 		var krit1 = document.getElementsByName("score")[1].value;
 		var krit2 = document.getElementsByName("score")[2].value;
@@ -227,7 +229,7 @@
 								echo "<h3><strong>".$row->nmkue."</strong></h3>";?>
 								<input type="hidden" class="form-control" name="id" value='<?php echo $row->id;?>'>
 								<a data-toggle="pill" class="well top-block" href=""></i><img src="/assets/img/produk/<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
-								<a data-toggle="pill" class="well top-block" href="" onclick="rating(<?php echo $row->id;?>);"><strong> Orang Mereview</strong></button></a>
+								<a data-toggle="pill" class="well top-block" href="" onclick="alert(1);rating(<?php echo $row->id;?>);"><strong> Orang Mereview</strong></button></a>
 							
 							</div>
 						</div>

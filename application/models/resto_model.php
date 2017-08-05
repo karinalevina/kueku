@@ -64,7 +64,7 @@ class Resto_model extends CI_Model {
 	}
 	
 	function org($id){
-		//$idmember = $this->session->userdata('idmember');
+		$idmember = $this->session->userdata('idmember');
 		$this->db->select('tbbuat.id,tbbuat.idkue,tbbuat.nmkue,tbfeedback.idpembeli,ukuran,bahan,penyajian,rasa,review,waktu,tbmember.nmmember,tbfeedback.idkue');		
 		$this->db->from($this->tbbuat);
 		$this->db->join($this->tbfeedback,'tbfeedback.idkue=tbbuat.id');
