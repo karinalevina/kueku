@@ -72,14 +72,14 @@
                         </li>
                     </ul>
 							<?php 
-/*								if (null != $this->session->userdata('username')) {
+								if (null != $this->session->userdata('username')) {
 									$username=$this->session->userdata('username');
 									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$username;
-								}  */
-								if ( $_SESSION["username"] != null) {
+								}  
+/*								if ( $_SESSION["username"] != null) {
 									$username=$_SESSION["username"];
 									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$_SESSION["username"];
-								}
+								}*/
 							?></font></a>
                 </div>
             </div>
