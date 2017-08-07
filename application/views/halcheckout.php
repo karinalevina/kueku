@@ -129,7 +129,7 @@
 				<form role="form" action="<?php echo base_url(); ?>index.php/resto_con/bayar" method="post">
 						<input type="hidden" class="form-control" name="idbeli" value='<?php echo $idbeli;?>'>
 						<button type='submit' class='btn btn-primary btn-round btn-lg'> Bayar</button>
-				</form>						
+				</form>		
 				<table class="table table-striped">
 					<tr>
 						<td><a href= ""></i><span> Nama Kue</span></a></td>

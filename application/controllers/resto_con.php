@@ -83,6 +83,14 @@ class Resto_con extends CI_Controller {
 		$this->load->view('standar', $data);
 	}
 	
+	public function kmblcart(){
+		$idmember = $this->session->userdata('idmember');
+		$idbeli = $this->session->userdata('idbeli');
+		$this->load->model('resto_model');
+		$this->resto_model->kmblcart($idmember,$idbeli);
+		redirect('index.php/resto_con/utama');
+	}
+	
 	public function halcheckout(){
 		$idmember = $this->session->userdata('idmember');
 		$this->load->model('resto_model');

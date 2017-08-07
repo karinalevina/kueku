@@ -166,7 +166,7 @@ class Resto_model extends CI_Model {
 	function updatejmlh($jmlh,$idkue,$subtotal) {
 		$idmember = $this->session->userdata('idmember');
 		$this->db->select('idbeli');
-		$this->db->where('tbkeranjang.proses',0);
+		$this->db->where('(tbkeranjang.proses = 0 or tbkeranjang.proses=1)');
 		$this->db->where('idpembeli',$idmember);
 		$query1=$this->db->get('tbkeranjang');
 		if ($query1->num_rows()>0) {
@@ -273,7 +273,7 @@ class Resto_model extends CI_Model {
 				   'jmlh' => $row->jmlh,
 				   'subtotal' => $row->subtotal,
 				   'tglkirim' => $row->tglkirim,
-				   'status' => 0,
+				   'proses' => 0,
 				);
 				$this->db->insert($this->tbdetbeli, $data);
 			}
@@ -286,6 +286,7 @@ class Resto_model extends CI_Model {
 	}
 	
 	function checkout($idmember) {
+		
 		$this->db->select('tbkeranjang.idbeli');
 		$this->db->where('tbkeranjang.proses',0);
 		$this->db->where('idpembeli',$idmember);
@@ -294,6 +295,7 @@ class Resto_model extends CI_Model {
 			foreach ($query1->result() as $notrx){
 				$notrx1 = $notrx->idbeli;
 			}
+			$this->session->set_userdata('idbeli',$notrx1);
 		if ($query1->num_rows()>0) {
 			foreach ($query1->result() as $notrx){
 				$notrx1 = $notrx->idbeli;
@@ -313,6 +315,18 @@ class Resto_model extends CI_Model {
 
 		//return $query1->result();
 		return $query1;
+	}
+	
+	function kmblcart($idmember,$idbeli) { 
+			$data=array(
+				'proses' => 0
+		);
+		$this->db->where('idbeli', $idbeli);
+		$this->db->where('idpembeli', $idmember);
+		$this->db->update($this->tbkeranjang, $data);
+
+		//return $query1->result();
+		//return $query1;
 	}
 		
 	/*function tampilrating($idmember) {
