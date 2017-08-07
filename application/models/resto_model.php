@@ -34,7 +34,9 @@ class Resto_model extends CI_Model {
 	}
 	
 	function tampilkuehalrating() {
+		$this->db->select('tbbuat.id,tbmember.idmember,tbmember.nmmember,tbbuat.nmkue,hrg,tbbuat.gambar,tbbuat.idpengrajin');
 		$this->db->from($this->tbbuat);
+		$this->db->join($this->tbmember,'tbbuat.idpengrajin=tbmember.idmember');
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -302,8 +304,8 @@ class Resto_model extends CI_Model {
 			$this->db->where('tbkeranjang.idbeli',$notrx1);
 			$query1 = $this->db->get();
 		} 
-		$data=array(
-		'proses' => 1
+			$data=array(
+				'proses' => 1
 		);
 		$this->db->where('idbeli', $notrx1);
 		$this->db->update($this->tbkeranjang, $data);

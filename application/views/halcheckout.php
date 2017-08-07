@@ -25,10 +25,10 @@
                         class="hidden-sm hidden-xs"> Profile</span>
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" id="themes">
-                    <li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
+                <ul class="" id="themes">
+                    <!--<li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
                     <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>
-                    <!--<li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
+                    <li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
 				</ul>
             </div>
             <!-- theme selector ends -->
@@ -179,7 +179,7 @@
 							<div class="col-md-4 col-xs-4"><a class="well top-block">Total Belanja</a></div>
 							<div class="col-md-8 col-xs-8"><?php if ($total!=0) foreach($total as $row){?>
 								<input type="hidden" class="form-control" name="total" value='<?php echo $row->idbeli;?>'>
-							<input type="text" class="form-control" name="total" value='<?php echo $row->subtotal;?>' disabled><?php } ?><br></div>
+							<input type="text" class="well top-block" name="total" value='<?php echo $row->subtotal;?>' disabled><?php } ?><br></div>
 							<div class="clearfix"></div><br>
 						</div>
 					</fieldset>

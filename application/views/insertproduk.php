@@ -30,9 +30,9 @@
                         class="hidden-sm hidden-xs"> Profile</span>
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" id="themes">
-                    <li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
-                    <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>
+                <ul class="" id="themes">
+                    <!--<li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
+                    <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>-->
             </div>
             <!-- theme selector ends -->
 

@@ -25,10 +25,10 @@
                         class="hidden-sm hidden-xs"> Profile</span>
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" id="themes">
-                    <li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
+                <ul class="" id="themes">
+                    <!--<li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
                     <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>
-                    <!--<li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
+                    <li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
 				</ul>
             </div>
             <!-- theme selector ends -->
@@ -161,7 +161,7 @@
 					<div class="product-content">
 						<?php
 						echo "<h3><strong>".$row->namakue."</strong></h3>";?>
-						<a data-toggle="pill" class="well top-block" href=""></i><img src="/assets/img/produk/<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></a>
+						<center><img src="/assets/img/produk/<?php echo $row->gambar;?>" alt style= "width:100px;height:50px;"></center>
 						<a data-toggle="pill" class="well top-block" href="" onclick="detstandar(<?php echo $row->idkue;?>);"><strong>Detail</strong></button></a>
 						<a data-toggle="pill" class="well top-block" href="" onclick="specstandar(<?php echo $row->idkue;?>);"><strong>Edit Standar</strong></button></a>
 				</div>

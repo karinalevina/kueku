@@ -25,10 +25,10 @@
                         class="hidden-sm hidden-xs"> Profile</span>
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" id="themes">
-                    <li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
+                <ul class="" id="themes">
+                    <!--<li><a data-value="classic" href="#"><i class="whitespace"></i> History</a></li>
                     <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Ubah Data Diri</a></li>
-                    <!--<li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
+                    <li><a data-value="cyborg" href="<?php echo base_url(); ?>index.php/resto_con/do_logout"><i class="whitespace"></i> Logout</a></li> -->
 				</ul>
             </div>
             <!-- theme selector ends -->
@@ -260,6 +260,12 @@
 			document.getElementById("namaRm").innerHTML = "Standar Kue";
 			$('#myModal').modal('show');
 		}
+		
+	function batastgl(){
+		$(function() {
+			$("#tgl").datepicker({dateFormat:'yy-mm-dd',minDate:0,maxDate:"+1W+0D"}).val();
+		});
+	}	
 		
 </script>
 <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

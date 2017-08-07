@@ -174,7 +174,7 @@ class Resto_con extends CI_Controller {
 		} else {
 			echo '<script type="text/javascript">
 				alert ("Anda Belum Dapat Menambah Produk, Silahkan Login Dulu");
-				location="resto_con/insertproduk";
+				history.go(-1);
 				</script>'; 
 		}
 	}
