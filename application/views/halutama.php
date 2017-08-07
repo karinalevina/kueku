@@ -78,7 +78,7 @@
 								}  */
 								if ( isset($_SESSION['username'])) {
 									$username=$_SESSION['username'];
-									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$username;
+									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$_SESSION['username'];
 								}
 							?></font></a>
                 </div>
