@@ -33,8 +33,11 @@ class Login_model extends CI_Model{
 				'username' => $hasil->username
 			);
 			session_start();
-			$this->session->set_userdata('idmember',$data['idmember']);
-			$this->session->set_userdata('username',$data['username']);
+			$_SESSION['username'] = $data['username'];
+			$_SESSION['idmember'] = $data['idmember'];
+			
+			//$this->session->set_userdata('idmember',$data['idmember']);
+			//$this->session->set_userdata('username',$data['username']);
 			return $query->result();
 			return true;
 		}
