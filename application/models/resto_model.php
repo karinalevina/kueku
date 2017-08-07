@@ -272,7 +272,8 @@ class Resto_model extends CI_Model {
 				   'idkue' => $row->idkue,
 				   'jmlh' => $row->jmlh,
 				   'subtotal' => $row->subtotal,
-				   'tglkirim' => $row->tglkirim
+				   'tglkirim' => $row->tglkirim,
+				   'status' => 0,
 				);
 				$this->db->insert($this->tbdetbeli, $data);
 			}
