@@ -76,9 +76,9 @@
 									$username=$this->session->userdata('username');
 									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$username;
 								}  */
-								if ( null !=$_SESSION['username']) {
-									$username=$_SESSION['username'];
-									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$_SESSION['username'];
+								if ( null != $_SESSION["username"]) {
+									$username=$_SESSION["username"];
+									 ?> <a class="navbar-brand"><font size="1"> <?php echo "Selamat Datang, ".$_SESSION["username"];
 								}
 							?></font></a>
                 </div>
