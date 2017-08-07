@@ -595,7 +595,7 @@ class Resto_con extends CI_Controller {
 											<input type='hidden' class='form-control' name='idmember[]' value=".$row->idmember.">
 											<input type='hidden' class='form-control' name='idkue[]' value=".$row->id.">
 											<input type='text' class='form-control' placeholder='Jumlah' name='jmlh[]' >
-											<input type='date' title='Tanggal Kirim' class='form-control' name='tglkirim[]' >
+											<input type='date' title='Tanggal Kirim' class='form-control' name='tglkirim[]' onchange='return batastgl();' id='tglkirim'>
 										</div>
 										<div class='clearfix'></div>
 									</td>

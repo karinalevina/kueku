@@ -263,7 +263,26 @@
 		
 	function batastgl(){
 		$(function() {
-			$("#tgl").datepicker({dateFormat:'yy-mm-dd',minDate:0,maxDate:"+1W+0D"}).val();
+			var awal=$('#tglkirim').val();
+			var tglkirim=awal.toString();
+			var date= new Date();
+			var dd=date.getDate();
+			var mm=date.getMonth()+1;
+			var yyyy=date.getFullYear();
+				if(dd<10){
+					dd='0'+dd;
+				}
+				if(mm<10){
+					mm='0'+mm;
+				}
+			var today=yyyy+'-'+mm+'-'+dd;
+			var hrini=today.toString();
+			//alert (hrini);
+			if(tglkirim < hrini){
+				alert("Tanggal Sudah Lewat")
+				return false;
+			}
+			//$("#tgl").datepicker({dateFormat:'yy-mm-dd',minDate:0,maxDate:"+1W+0D"}).val();
 		});
 	}	
 		
