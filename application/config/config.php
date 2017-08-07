@@ -21,6 +21,7 @@
 //$ipadd = 'http://10.0.4.221/';
 //$ipadd = 'http://10.0.4.54/';
 $config['base_url']	= 'http://karina-ta.kharisma.ac.id/';
+//$config['base_url']	= 'http://kueku.local/';
 //$ipadd.'/kueku//';
 
 /*
